@@ -23,7 +23,7 @@
                 }
               ],
               "resource": "1201017501831750", // This is the id of the generate score field task 
-              "target": "http.heroku.com/asanaresult" // this is where your web-hooks 
+              "target": "https://asana-bt-domain-intake-app.herokuapp.com/calculate_score" // this is where your web-hooks 
           }  
         }
         client.webhooks.createWebhook(webhookEvent)
