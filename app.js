@@ -4,6 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//get methods
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var calculateRouter = require('./routes/calculate');
+var addIntakeRouter = require('./routes/addIntake');
+
+//POST Methods 
 const ASANA_CALCULATE_OPP = require('./client/AsanaOpportunityCalculator.js');
 const ASANA_WEBHOOK_CALCULATE_RESULT = require('./client/AsanaWebHookCalculateResult.js');
 
@@ -11,10 +18,8 @@ const ASANA_ADD_NEW_TASK = require('./client/InTakeRequestCreator.js');
 const ASANA_WEBHOOK_ADD_NEW_TASK = require('./client/AsanaWebHookAddTask.js');
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var calculateRouter = require('./routes/calculate');
-var addIntakeRouter = require('./routes/addIntake');
+
+
 
 var app = express();
 
