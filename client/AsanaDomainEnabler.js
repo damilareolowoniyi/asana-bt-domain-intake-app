@@ -6,7 +6,7 @@ asanaScript: function(callback){
 var asana = require('asana');
 
 // before deploying change this 
-// var personalAccessToken =  process.env.ASANA_ACCESS_TOKEN;
+ var personalAccessToken =  process.env.ASANA_ACCESS_TOKEN;
 
 //local
 var personalAccessToken = '';

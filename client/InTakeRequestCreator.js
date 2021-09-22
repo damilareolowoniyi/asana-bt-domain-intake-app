@@ -1,6 +1,9 @@
 var asana = require('asana');
 
-var personalAccessToken = '1/1200191710492221:9c8c905608b0d38cebcf99e4b0791557';
+ // before deploying change this 
+ var personalAccessToken =  process.env.ASANA_ACCESS_TOKEN;
+    
+//var personalAccessToken = '1/1200191710492221:9c8c905608b0d38cebcf99e4b0791557';
 
 // Construct an Asana client
 var client = asana.Client.create().useAccessToken(personalAccessToken);
