@@ -82,7 +82,7 @@ app.post('/asana_create_new_task', function (req, res) {
   // your are sending the X-hook-serect and sending back a response that you have acknowlegded the webhok.
   // send an X-hook secret get the webhook 
   //res.sendStatus(200);
-  res.sendStatus(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret']));
+  res.status(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret']));
 });
 
 
