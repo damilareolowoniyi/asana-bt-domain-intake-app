@@ -19,7 +19,7 @@ async function webHookAddNewTask(){
                "resource_type": "task"
             }
           ],
-          "resource": "1201017501831705", // This is the id of the section  
+          "resource": "1200384595968979", // project id   
           "target": "https://asana-bt-domain-intake-app.herokuapp.com/asana_create_new_task" // this is where your web-hooks 
       }  
     }
