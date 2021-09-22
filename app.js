@@ -63,7 +63,8 @@ app.post('/create_webhook_calculate', function (req, res) {
 // calculate webhook
 app.post('/create_webhook_task', function (req, res) {
   ASANA_WEBHOOK_ADD_NEW_TASK.webHookAddNewTask();
-  res.send('Calculate new task successfully created successfully ran');
+  res.status(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret']));
+ // res.send('Calculate new task successfully created successfully ran');
   });
 
 // calculate webhook
