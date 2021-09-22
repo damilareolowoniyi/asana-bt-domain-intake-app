@@ -16,10 +16,10 @@ async function webHookAddNewTask(){
         "filters": [
             {
               "action": "added",
-               "resource_type": "section"
+               "resource_type": "task"
             }
           ],
-          "resource": "1201017501831705", // This is the id of the generate score field task 
+          "resource": "1201017501831705", // This is the id of the section  
           "target": "https://asana-bt-domain-intake-app.herokuapp.com/asana_create_new_task" // this is where your web-hooks 
       }  
     }

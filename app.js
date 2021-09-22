@@ -61,9 +61,18 @@ app.post('/create_webhook_calculate', function (req, res) {
 });
 
 // calculate webhook
-app.post('/calculate_score', function (req, res) {
-  ASANA_CALCULATE_OPP.calculateOppScoring();
+app.post('/create_webhook_task', function (req, res) {
+  ASANA_WEBHOOK_ADD_NEW_TASK.webHookAddNewTask();
   res.send('Calculate new task successfully created successfully ran');
+  });
+
+// calculate webhook
+app.post('/calculate_score', function (req, res) {
+  // your are sending the X-hook-serect and sending back a response that you have acknowlegded the webhok.
+  // send an X-hook secret get the webhook 
+  ASANA_CALCULATE_OPP.calculateOppScoring();
+  res.status(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret']));
+
  });
 
 
@@ -74,11 +83,7 @@ app.post('/asana_create_new_task', function (req, res) {
   res.status(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret']));
 });
 
-// calculate webhook
-app.post('/create_webhook_task', function (req, res) {
-  ASANA_WEBHOOK_ADD_NEW_TASK.webHookAddNewTask();
-  res.send('Calculate new task successfully created successfully ran');
-  });
+
 
  
 
