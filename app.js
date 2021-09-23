@@ -45,24 +45,26 @@ var crypto = require("crypto");
 
 // calculate webhook
 app.post('/calculate_score', function (req, res) {
-  
+
   ASANA_CALCULATE_OPP.calculateOppScoring();
-  rconsole.log('req: ' , req);
+  rconsole.log('req: ', req);
   console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
 
   const cal_response = {
     statusCode: 200,
-    headers: {"X-Hook-Secret": req.headers['X-Hook-Secret']},
+    headers: {
+      "X-Hook-Secret": req.headers['X-Hook-Secret']
+    },
     body: JSON.stringify('Hello from Lambda!'),
-    };
-    return cal_response;
- });
+  };
+  return cal_response;
+});
 
 // calculate webhook
 app.post('/create_webhook_calculate', function (req, res) {
   ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
   res.status(200).send('Create new task in Asana created successfully text');
-  
+
   // pass in http..../create_webhook_calculate into the target 
 });
 
@@ -71,16 +73,19 @@ app.post('/create_webhook_calculate', function (req, res) {
 app.post('/asana_create_new_task', function (req, res) {
   ASANA_ADD_NEW_TASK.createNewAsanaTask();
 
-  console.log('req: ' , req);
+  console.log('req: ', req);
   console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
 
-  const response = {
-    statusCode: 200,
-    headers: {"X-Hook-Secret": req.headers['X-Hook-Secret']},
-    body: JSON.stringify('Hello from Lambda!'),
-    };
-    return response;
-  
+  // const response = {
+  //   statusCode: 200,
+  //   headers: {"X-Hook-Secret": req.headers['X-Hook-Secret']},
+  //   body: JSON.stringify('Hello from Lambda!'),
+  //   };
+  //   return response;
+
+  res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
+  res.status(200).send();
+
 });
 
 
@@ -98,17 +103,17 @@ app.post('/create_webhook_task', function (req, res) {
   //     return res.status(401).send('The X-Hook-Signatures doesnt match the one Asana is providing you');
   // }
 
-    res.status(200).send('Create new task in Asana created successfully text');
+  res.status(200).send('Create new task in Asana created successfully text');
 
-    // res.send('Create new task in Asana created successfully');
+  // res.send('Create new task in Asana created successfully');
 
-  });
-
-
+});
 
 
 
- 
+
+
+
 
 
 // catch 404 and forward to error handler
