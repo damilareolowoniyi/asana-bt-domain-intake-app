@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/asana_create_task', addIntakeRouter);
+app.use('/asana_create_task_new', addIntakeRouter);
 app.use('/users', usersRouter);
 app.use('/calculate_score', calculateRouter);
 
@@ -70,16 +70,18 @@ app.post('/create_webhook_calculate', function (req, res) {
 
 
 // calculate webhook
-app.post('/asana_create_task', function (req, res) {
+app.post('/asana_create_task_new', function (req, res) {
   ASANA_ADD_NEW_TASK.createNewAsanaTask();
 
-  console.log('req: ' , req);
-  console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
+    console.log('req: ' , req);
+    console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
+
+    
+    res.status(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret'])); 
 
     // This gives an message: 'The remote server which is intended to receive the webhook responded with an incorrect status code: 500',
-    res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
-    res.status(200).send();
-  
+    // res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
+    // res.status(200).send();
 
     // This gives a timeout. 
     // const response = {
@@ -91,7 +93,7 @@ app.post('/asana_create_task', function (req, res) {
 
 });
 
-app.post('/create_new_webhook_task', function (req, res) {
+app.post('/task_create_new_webhook', function (req, res) {
   ASANA_WEBHOOK_ADD_NEW_TASK.webHookAddNewTask();
 
   res.status(200).send('Create new task in Asana created successfully text');
