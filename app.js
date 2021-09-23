@@ -74,10 +74,10 @@ app.post('/asana_create_task', function (req, res) {
   ASANA_ADD_NEW_TASK.createNewAsanaTask();
 
   console.log('req: ' , req);
-  console.log("req.headers['x-hook-secret']: " + req.headers['X-Hook-Secret']);
+  console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
 
     // This gives an message: 'The remote server which is intended to receive the webhook responded with an incorrect status code: 500',
-    res.setHeader('X-Hook-Secret', req.headers['X-Hook-Secret']);
+    res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
     res.status(200).send();
   
 
