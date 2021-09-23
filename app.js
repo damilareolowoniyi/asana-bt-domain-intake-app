@@ -71,9 +71,11 @@ app.post('/create_webhook_calculate', function (req, res) {
   
   // when the webhook is being created 
     if (webhookSecret){ 
-    res.status(200);
-    res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
-    res.send();
+      ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
+      res.status(200);
+      res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
+      res.send();
+
     }
   // when the webhook is being executed  
   const signature = req.headers['X-Hook-Signature'];
@@ -86,7 +88,7 @@ app.post('/create_webhook_calculate', function (req, res) {
       res.status(401); // send a error 
       res.send();
     }else {
-      ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
+      // ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
       console.log("Asana script is successfully executed")
       res.status(200); // send a success // this 
       res.send();
