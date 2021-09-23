@@ -18,9 +18,6 @@ const ASANA_ADD_NEW_TASK = require('./client/InTakeRequestCreator.js');
 const ASANA_WEBHOOK_ADD_NEW_TASK = require('./client/AsanaWebHookAddTask.js');
 
 
-
-
-
 var app = express();
 
 // view engine setup
@@ -47,23 +44,28 @@ var crypto = require("crypto");
 app.post('/calculate_score', function (req, res) {
 
   var webhookSecretCal = req.headers['x-hook-secret'];
-  console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
-  var webhookSecret = req.headers['x-hook-secret'];
-  
-    if (webhookSecret){ 
-      // ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
-      res.status(200);
+   
+  // Enviroment variable 
+  process.env.X_SECRET_KEY = webhookSecretCal;  
+
+    console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
+    var webhookSecretCal = req.headers['x-hook-secret'];
+    
+     // The webhook get created when this POST returns with a 201
+    if (process.env.X_SECRET_KEY){ 
+       res.status(200);
       res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
       res.send();
     }
 
     // when the webhook is being executed  
     const signature = req.headers['X-Hook-Signature'];
-    const hash = crypto.createHmac('sha256', webhookSecretCal) // the signature is encryced , you will need to decrpyt this
+    const hash = crypto.createHmac('sha256', process.env.X_SECRET_KEY) // the signature is encryced , you will need to decrpyt this
     .update(String(req.body))
     .digest('hex');
   
   // if the signature is not valid 
+    
   if (signature != hash){ 
       res.status(401); // send a error 
       res.send();
@@ -73,13 +75,9 @@ app.post('/calculate_score', function (req, res) {
       res.status(200); // send a success // this 
       res.send();
     }
-  
-});
+ });
 
 // calculate webhook
-
-// would just be the id of the webhook and then my script execution 
-// /
 app.post('/create_webhook_calculate', function (req, res) {
   console.log("hello");
 });
@@ -119,10 +117,8 @@ app.post('/asana_create_task_new', function (req, res) {
 
 app.post('/task_create_new_webhook', function (req, res) {
   ASANA_WEBHOOK_ADD_NEW_TASK.webHookAddNewTask();
-
   res.status(200).send('Create new task in Asana created successfully text');
 
-  // res.send('Create new task in Asana created successfully');
 
 });
 
