@@ -63,19 +63,33 @@ app.post('/calculate_score', function (req, res) {
 
 // calculate webhook
 
+
+app.post('/asana_create_new_task', function (req, res) {
+  ASANA_ADD_NEW_TASK.createNewAsanaTask();
+  // your are sending the X-hook-serect and sending back a response that you have acknowlegded the webhok.
+  // send an X-hook secret get the webhook 
+  //res.sendStatus(200);
+
+  console.log('req: ' , req);
+  console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
+
+  res.status(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret']));
+});
+
+
 app.post('/create_webhook_task', function (req, res) {
   ASANA_WEBHOOK_ADD_NEW_TASK.webHookAddNewTask();
 
-  const signature = res.headers['X-Hook-Signature'];
-  const hash = crypto.createHmac('sha256', signature)
-      .update(String(body))
-      .digest('hex');
-        // Check header secret
+  // const signature = res.headers['X-Hook-Signature'];
+  // const hash = crypto.createHmac('sha256', signature)
+  //     .update(String(body))
+  //     .digest('hex');
+  //       // Check header secret
 
-  if (signature != hash) {
-      console.error('Calculated digest does not match digest from API.This event is not trusted.: ' + signature);
-      return res.status(401).send('The X-Hook-Signatures doesnt match the one Asana is providing you');
-  }
+  // if (signature != hash) {
+  //     console.error('Calculated digest does not match digest from API.This event is not trusted.: ' + signature);
+  //     return res.status(401).send('The X-Hook-Signatures doesnt match the one Asana is providing you');
+  // }
 
     res.status(200).send('Create new task in Asana created successfully text');
 
@@ -84,13 +98,6 @@ app.post('/create_webhook_task', function (req, res) {
   });
 
 
-app.post('/asana_create_new_task', function (req, res) {
-  ASANA_ADD_NEW_TASK.createNewAsanaTask();
-  // your are sending the X-hook-serect and sending back a response that you have acknowlegded the webhok.
-  // send an X-hook secret get the webhook 
-  //res.sendStatus(200);
-  res.status(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret']));
-});
 
 
 
