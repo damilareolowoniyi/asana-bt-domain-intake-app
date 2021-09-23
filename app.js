@@ -46,26 +46,7 @@ var crypto = require("crypto");
 // calculate webhook
 app.post('/calculate_score', function (req, res) {
 
-  ASANA_CALCULATE_OPP.calculateOppScoring();
-  rconsole.log('req: ', req);
-  console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
-
-  const cal_response = {
-    statusCode: 200,
-    headers: {
-      "X-Hook-Secret": req.headers['X-Hook-Secret']
-    },
-    body: JSON.stringify('Hello from Lambda!'),
-  };
-  return cal_response;
-});
-
-// calculate webhook
-
-// would just be the id of the webhook and then my script execution 
-// /
-app.post('/create_webhook_calculate', function (req, res) {
-
+  var webhookSecretCal = req.headers['x-hook-secret'];
   console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
   var webhookSecret = req.headers['x-hook-secret'];
   
@@ -78,7 +59,7 @@ app.post('/create_webhook_calculate', function (req, res) {
 
     // when the webhook is being executed  
     const signature = req.headers['X-Hook-Signature'];
-    const hash = crypto.createHmac('sha256', webhookSecret) // the signature is encryced , you will need to decrpyt this
+    const hash = crypto.createHmac('sha256', webhookSecretCal) // the signature is encryced , you will need to decrpyt this
     .update(String(req.body))
     .digest('hex');
   
@@ -87,12 +68,20 @@ app.post('/create_webhook_calculate', function (req, res) {
       res.status(401); // send a error 
       res.send();
     }else {
-      ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
+      ASANA_CALCULATE_OPP.calculateOppScoring();
       console.log("Asana script is successfully executed")
       res.status(200); // send a success // this 
       res.send();
     }
- 
+  
+});
+
+// calculate webhook
+
+// would just be the id of the webhook and then my script execution 
+// /
+app.post('/create_webhook_calculate', function (req, res) {
+  console.log("hello");
 });
 
 
