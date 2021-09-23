@@ -57,7 +57,15 @@ app.post('/calculate_score', function (req, res) {
   // your are sending the X-hook-serect and sending back a response that you have acknowlegded the webhok.
   // send an X-hook secret get the webhook 
   ASANA_CALCULATE_OPP.calculateOppScoring();
-  res.status(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret']));
+  rconsole.log('req: ' , req);
+  console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
+
+  const response = {
+    statusCode: 200,
+    headers: {"X-Hook-Secret": req.headers['X-Hook-Secret']},
+    body: JSON.stringify('Hello from Lambda!'),
+    };
+    return response;
 
  });
 
