@@ -16,6 +16,7 @@ const ASANA_WEBHOOK_CALCULATE_RESULT = require('./client/AsanaWebHookCalculateRe
 
 const ASANA_ADD_NEW_TASK = require('./client/InTakeRequestCreator.js');
 const ASANA_WEBHOOK_ADD_NEW_TASK = require('./client/AsanaWebHookAddTask.js');
+process.env.X_SECRET_KEY = "";
 
 
 var app = express();
@@ -45,7 +46,7 @@ app.post('/calculate_score', function (req, res) {
 
   var webhookSecretCal = req.headers['x-hook-secret'];
    
-  // Enviroment variable 
+    // Enviroment variable 
     process.env.X_SECRET_KEY = webhookSecretCal;  
 
     console.log("req.headers['x-hook-secret']: " + process.env.X_SECRET_KEY);
