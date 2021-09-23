@@ -73,23 +73,24 @@ app.post('/create_webhook_calculate', function (req, res) {
 app.post('/asana_create_task_new', function (req, res) {
   ASANA_ADD_NEW_TASK.createNewAsanaTask();
 
-    console.log('req: ' , req);
+    // console.log('req: ' , req);
     console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
 
-    
-    res.status(200).send(res.header('X-Hook-Secret', req.headers['x-hook-secret'])); 
-
-    // This gives an message: 'The remote server which is intended to receive the webhook responded with an incorrect status code: 500',
-    // res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
-    // res.status(200).send();
-
     // This gives a timeout. 
-    // const response = {
-    // statusCode: 200,
-    // headers: {"X-Hook-Secret": req.headers['X-Hook-Secret']},
-    // body: JSON.stringify('Hello from Lambda!'),
-    // };
-    // return response;
+    res = {
+    statusCode: 200,
+    headers: {"X-Hook-Secret": req.headers['X-Hook-Secret']},
+    body: JSON.stringify('Hello from Lambda!'),
+    };
+    res.send();
+
+     var signature = req.headers['x-hook-secret']
+   
+    // 
+    // if (){
+
+    // }
+
 
 });
 
@@ -101,12 +102,6 @@ app.post('/task_create_new_webhook', function (req, res) {
   // res.send('Create new task in Asana created successfully');
 
 });
-
-
-
-
-
-
 
 
 // catch 404 and forward to error handler
