@@ -80,20 +80,22 @@ app.post('/asana_create_task_new', function (req, res) {
       res.status(200);
       res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
       res.send();
+      ASANA_ADD_NEW_TASK.createNewAsanaTask();
+
       }
-    
+
     // when the webhook is being executed  
     const signature = req.headers['X-Hook-Signature'];
     const hash = crypto.createHmac('sha256', 'X-Hook-Secret}') // the signature is encryced , you will need to decrpyt this
     .update(String(req.body))
     .digest('hex');
-
-     if (signature != hash){ 
+    
+    // if the signature is not valid 
+    if (signature != hash){ 
         res.status(401); // send a error 
         res.send();
       }else {
-     
-        ASANA_ADD_NEW_TASK.createNewAsanaTask();
+        // ASANA_ADD_NEW_TASK.createNewAsanaTask();
         res.status(200); // send a success // this 
         res.send();
       }
