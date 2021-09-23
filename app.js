@@ -73,18 +73,20 @@ app.post('/create_webhook_calculate', function (req, res) {
 app.post('/asana_create_new_task', function (req, res) {
   ASANA_ADD_NEW_TASK.createNewAsanaTask();
 
+  res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
+  res.status(200).send();
+  
   console.log('req: ', req);
   console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
 
-  // const response = {
+  
+
+    // const response = {
   //   statusCode: 200,
   //   headers: {"X-Hook-Secret": req.headers['X-Hook-Secret']},
   //   body: JSON.stringify('Hello from Lambda!'),
   //   };
   //   return response;
-
-  res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
-  res.status(200).send();
 
 });
 
