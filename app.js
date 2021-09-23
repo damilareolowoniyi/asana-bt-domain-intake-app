@@ -69,26 +69,25 @@ app.post('/create_webhook_calculate', function (req, res) {
   console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
   var webhookSecret = req.headers['x-hook-secret'];
   
-  // when the webhook is being created 
     if (webhookSecret){ 
-      ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
+      // ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
       res.status(200);
       res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
       res.send();
-
     }
-  // when the webhook is being executed  
-  const signature = req.headers['X-Hook-Signature'];
-  const hash = crypto.createHmac('sha256', 'X-Hook-Secret}') // the signature is encryced , you will need to decrpyt this
-  .update(String(req.body))
-  .digest('hex');
+
+    // when the webhook is being executed  
+    const signature = req.headers['X-Hook-Signature'];
+    const hash = crypto.createHmac('sha256', webhookSecret) // the signature is encryced , you will need to decrpyt this
+    .update(String(req.body))
+    .digest('hex');
   
   // if the signature is not valid 
   if (signature != hash){ 
       res.status(401); // send a error 
       res.send();
     }else {
-      // ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
+      ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
       console.log("Asana script is successfully executed")
       res.status(200); // send a success // this 
       res.send();
@@ -112,7 +111,7 @@ app.post('/asana_create_task_new', function (req, res) {
 
     // when the webhook is being executed  
     const signature = req.headers['X-Hook-Signature'];
-    const hash = crypto.createHmac('sha256', 'X-Hook-Secret}') // the signature is encryced , you will need to decrpyt this
+    const hash = crypto.createHmac('sha256', webhookSecret) // the signature is encryced , you will need to decrpyt this
     .update(String(req.body))
     .digest('hex');
     
