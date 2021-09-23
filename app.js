@@ -71,19 +71,33 @@ app.post('/create_webhook_calculate', function (req, res) {
 
 // calculate webhook
 app.post('/asana_create_task_new', function (req, res) {
-  ASANA_ADD_NEW_TASK.createNewAsanaTask();
 
-    // console.log('req: ' , req);
     console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
-
-    res.status(200);
-    res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
-    res.send();
- 
-    // var signature = req.headers['x-hook-secret']
+    var webhookSecret = req.headers['x-hook-secret'];
    
-     
+    // when the webhook is being created 
+      if (webhookSecret){ 
+      res.status(200);
+      res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
+      res.send();
+      }
+    
+    // when the webhook is being executed  
+    const signature = req.headers['X-Hook-Signature'];
+    const hash = crypto.createHmac('sha256', 'X-Hook-Secret}') // the signature is encryced , you will need to decrpyt this
+    .update(String(req.body))
+    .digest('hex');
 
+     if (signature != hash){ 
+        res.status(401); // send a error 
+        res.send();
+      }else {
+     
+        ASANA_ADD_NEW_TASK.createNewAsanaTask();
+        res.status(200); // send a success // this 
+        res.send();
+      }
+     
 });
 
 app.post('/task_create_new_webhook', function (req, res) {
