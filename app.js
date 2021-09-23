@@ -61,11 +61,38 @@ app.post('/calculate_score', function (req, res) {
 });
 
 // calculate webhook
-app.post('/create_webhook_calculate', function (req, res) {
-  ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
-  res.status(200).send('Create new task in Asana created successfully text');
 
-  // pass in http..../create_webhook_calculate into the target 
+// would just be the id of the webhook and then my script execution 
+// /
+app.post('/create_webhook_calculate', function (req, res) {
+
+  console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
+  var webhookSecret = req.headers['x-hook-secret'];
+  
+   ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
+  // when the webhook is being created 
+    if (webhookSecret){ 
+    res.status(200);
+    res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
+    res.send();
+    }
+  // when the webhook is being executed  
+  const signature = req.headers['X-Hook-Signature'];
+  const hash = crypto.createHmac('sha256', 'X-Hook-Secret}') // the signature is encryced , you will need to decrpyt this
+  .update(String(req.body))
+  .digest('hex');
+  
+  // if the signature is not valid 
+  if (signature != hash){ 
+      ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
+      res.status(401); // send a error 
+      res.send();
+    }else {
+      console.log("Asana script is successfully executed")
+      res.status(200); // send a success // this 
+      res.send();
+    }
+ 
 });
 
 
@@ -80,8 +107,6 @@ app.post('/asana_create_task_new', function (req, res) {
       res.status(200);
       res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
       res.send();
-      ASANA_ADD_NEW_TASK.createNewAsanaTask();
-
       }
 
     // when the webhook is being executed  
@@ -95,7 +120,8 @@ app.post('/asana_create_task_new', function (req, res) {
         res.status(401); // send a error 
         res.send();
       }else {
-        // ASANA_ADD_NEW_TASK.createNewAsanaTask();
+        ASANA_ADD_NEW_TASK.createNewAsanaTask();
+        console.log("Asana script is successfully executed")
         res.status(200); // send a success // this 
         res.send();
       }
