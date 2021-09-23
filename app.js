@@ -41,16 +41,7 @@ app.use('/users', usersRouter);
 app.use('/calculate_score', calculateRouter);
 
 
-//var asana = require('asana');
-
-// before deploying change this 
-// var personalAccessToken =  process.env.ASANA_ACCESS_TOKEN;
-
-//local
-// env variable 
-
-// Construct an Asana client
-//var client = asana.Client.create().useAccessToken(personalAccessToken);
+var crypto = require("crypto");
 
 
 // calculate webhook
@@ -71,9 +62,25 @@ app.post('/calculate_score', function (req, res) {
  });
 
 // calculate webhook
+
 app.post('/create_webhook_task', function (req, res) {
   ASANA_WEBHOOK_ADD_NEW_TASK.webHookAddNewTask();
-  res.send('Calculate new task successfully created successfully ran');
+
+  const signature = res.headers['X-Hook-Signature'];
+  const hash = crypto.createHmac('sha256', signature)
+      .update(String(body))
+      .digest('hex');
+        // Check header secret
+
+  if (signature != hash) {
+      console.error('Calculated digest does not match digest from API.This event is not trusted.: ' + signature);
+      return res.status(401).send('The X-Hook-Signatures doesnt match the one Asana is providing you');
+  }
+
+    res.status(200).send('Create new task in Asana created successfully text');
+
+    // res.send('Create new task in Asana created successfully');
+
   });
 
 

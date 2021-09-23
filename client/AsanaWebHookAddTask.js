@@ -11,18 +11,6 @@ var personalAccessToken = process.env.ASANA_ACCESS_TOKEN;
 var client = asana.Client.create().useAccessToken(personalAccessToken);
 
 async function webHookAddNewTask() {
-    //    var webhookEvent = {
-    //     "data": {
-    //     "filters": [
-    //         {
-    //           "action": "added",
-    //            "resource_type": "task"
-    //         }
-    //       ],
-    //       "resource": "1200384595968979",    
-    //       "target": "https://asana-bt-domain-intake-app.herokuapp.com/asana_create_new_task" // this is where your web-hooks 
-    //   }  
-    // }
 
     const webhookEvent = {
         data: {
@@ -39,7 +27,12 @@ async function webHookAddNewTask() {
         .then((result) => {}).catch(function (err) {
             console.log(err.value.errors)
         });
-}
+
+        const response = {
+            statusCode: 200
+            };
+            return response;
+ }
 
 module.exports = {
     webHookAddNewTask
