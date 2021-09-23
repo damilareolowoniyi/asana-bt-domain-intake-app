@@ -20,7 +20,7 @@ async function webHookAddNewTask() {
             }, ],
         },
         resource: "1200384595968979", // This is the id of the section  
-        target: "https://asana-bt-domain-intake-app.herokuapp.com/asana_create_new_task" // this is where web-hooks script is
+        target: "https://asana-bt-domain-intake-app.herokuapp.com/asana_create_task" // this is where web-hooks script is
     };
 
     client.webhooks.createWebhook(webhookEvent)

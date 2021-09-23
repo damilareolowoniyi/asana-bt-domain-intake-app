@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/asana_create_new_task', addIntakeRouter);
+app.use('/asana_create_task', addIntakeRouter);
 app.use('/users', usersRouter);
 app.use('/calculate_score', calculateRouter);
 
@@ -70,7 +70,7 @@ app.post('/create_webhook_calculate', function (req, res) {
 
 
 // calculate webhook
-app.post('/asana_create_new_task', function (req, res) {
+app.post('/asana_create_task', function (req, res) {
   ASANA_ADD_NEW_TASK.createNewAsanaTask();
 
   res.setHeader('X-Hook-Secret', req.headers['X-Hook-Secret']);
@@ -90,8 +90,7 @@ app.post('/asana_create_new_task', function (req, res) {
 
 });
 
-
-app.post('/create_webhook_task', function (req, res) {
+app.post('/create_new_webhook_task', function (req, res) {
   ASANA_WEBHOOK_ADD_NEW_TASK.webHookAddNewTask();
 
   res.status(200).send('Create new task in Asana created successfully text');
