@@ -48,9 +48,8 @@ app.post('/calculate_score', function (req, res) {
   // Enviroment variable 
     process.env.X_SECRET_KEY = webhookSecretCal;  
 
-    console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
-    var webhookSecretCal = req.headers['x-hook-secret'];
-    
+    console.log("req.headers['x-hook-secret']: " + process.env.X_SECRET_KEY);
+     
      // The webhook get created when this POST returns with a 201
     if (process.env.X_SECRET_KEY){ 
        res.status(200);
