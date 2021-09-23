@@ -73,11 +73,11 @@ app.post('/create_webhook_calculate', function (req, res) {
 app.post('/asana_create_task', function (req, res) {
   ASANA_ADD_NEW_TASK.createNewAsanaTask();
 
+  console.log("req.headers['x-hook-secret']: " + req.headers['X-Hook-Secret']);
+
   res.setHeader('X-Hook-Secret', req.headers['X-Hook-Secret']);
   res.status(200).send();
 
-  console.log('req: ', req);
-  console.log("req.headers['x-hook-secret']: " + req.headers['X-Hook-Secret']);
 
   
 
