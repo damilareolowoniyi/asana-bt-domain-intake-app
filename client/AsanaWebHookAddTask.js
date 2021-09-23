@@ -27,11 +27,7 @@ async function webHookAddNewTask() {
         .then((result) => {}).catch(function (err) {
             console.log(err.value.errors)
         });
-
-        const response = {
-            statusCode: 200
-            };
-            return response;
+        
  }
 
 module.exports = {
