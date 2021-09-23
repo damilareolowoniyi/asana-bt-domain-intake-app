@@ -46,7 +46,7 @@ app.post('/calculate_score', function (req, res) {
   var webhookSecretCal = req.headers['x-hook-secret'];
    
   // Enviroment variable 
-  process.env.X_SECRET_KEY = webhookSecretCal;  
+    process.env.X_SECRET_KEY = webhookSecretCal;  
 
     console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
     var webhookSecretCal = req.headers['x-hook-secret'];
