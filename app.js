@@ -76,21 +76,13 @@ app.post('/asana_create_task_new', function (req, res) {
     // console.log('req: ' , req);
     console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
 
-    // This gives a timeout. 
-    res = {
-    statusCode: 200,
-    headers: {"X-Hook-Secret": req.headers['X-Hook-Secret']},
-    body: JSON.stringify('Hello from Lambda!'),
-    };
+    res.status(200);
+    res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
     res.send();
-
-     var signature = req.headers['x-hook-secret']
+ 
+    // var signature = req.headers['x-hook-secret']
    
-    // 
-    // if (){
-
-    // }
-
+     
 
 });
 
