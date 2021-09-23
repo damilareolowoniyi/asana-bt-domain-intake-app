@@ -16,7 +16,7 @@ const ASANA_WEBHOOK_CALCULATE_RESULT = require('./client/AsanaWebHookCalculateRe
 
 const ASANA_ADD_NEW_TASK = require('./client/InTakeRequestCreator.js');
 const ASANA_WEBHOOK_ADD_NEW_TASK = require('./client/AsanaWebHookAddTask.js');
-const DELETE_WEBHOOK = require('./client/DeleteWebHook.js');
+// const DELETE_WEBHOOK = require('./client/DeleteWebHook.js');
 
 webhookSecretCal = "";
 process.env.X_SECRET_KEY = "";
@@ -70,7 +70,6 @@ app.post('/calculate_score', function (req, res) {
   // if the signature is not valid 
     
   if (signature != hash){ 
-     DELETE_WEBHOOK.deleteWebHook();
       res.status(401); // send a error 
       res.send();
     }else {
