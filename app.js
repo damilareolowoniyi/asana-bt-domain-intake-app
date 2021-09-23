@@ -69,7 +69,6 @@ app.post('/create_webhook_calculate', function (req, res) {
   console.log("req.headers['x-hook-secret']: " + req.headers['x-hook-secret']);
   var webhookSecret = req.headers['x-hook-secret'];
   
-   ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
   // when the webhook is being created 
     if (webhookSecret){ 
     res.status(200);
@@ -84,10 +83,10 @@ app.post('/create_webhook_calculate', function (req, res) {
   
   // if the signature is not valid 
   if (signature != hash){ 
-      ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
       res.status(401); // send a error 
       res.send();
     }else {
+      ASANA_WEBHOOK_CALCULATE_RESULT.webhookCalculateResult();
       console.log("Asana script is successfully executed")
       res.status(200); // send a success // this 
       res.send();
