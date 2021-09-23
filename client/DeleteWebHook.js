@@ -10,7 +10,7 @@ var asana = require('asana');
 
 var client = asana.Client.create().useAccessToken(personalAccessToken);
 
-// async function deleteWebHook() {
+async function deleteWebHook() {
 
     //get webhook
     var ws= {
@@ -22,10 +22,19 @@ client.webhooks.getWebhooks(ws)
         console.log(result);
 
         var webhookId = result.data.gid;
+ 
+
+    const client = asana.Client.create().useAccessToken('PERSONAL_ACCESS_TOKEN');
+
+client.webhooks.deleteWebhook(webhookId)
+    .then((result) => {
+        console.log(result);
     });
 
-// }
+});
 
-// module.exports = {
-//     deleteWebHook
-// };
+}
+
+module.exports = {
+    deleteWebHook
+};
