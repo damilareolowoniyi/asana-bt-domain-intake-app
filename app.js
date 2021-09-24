@@ -58,8 +58,9 @@ app.post('/calculate_score', function (req, res) {
   // }
    
   webhookSecretCal = "005b677b914d9bf59d0140b44ae0f9bb";
+
   // when the webhook is being executed  
-  const signature = req.headers['X-Hook-Signature'];
+  const signature = webhookSecretCal;
   const hash = crypto.createHmac('sha256', webhookSecretCal) // the signature is encryced , you will need to decrpyt this
     .update(String(req.body))
     .digest('hex');
