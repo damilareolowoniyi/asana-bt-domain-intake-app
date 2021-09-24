@@ -46,29 +46,31 @@ var crypto = require("crypto");
 
 // calculate webhook
 app.post('/calculate_score', function (req, res) {
-
   var webhookSecretCal = req.headers['x-hook-secret'];
    
-    // Enviroment variable 
-    process.env.X_SECRET_KEY = webhookSecretCal;  
-
-    console.log("req.headers['x-hook-secret']: " + process.env.X_SECRET_KEY);
+   console.log("req.headers['x-hook-secret']: " + webhookSecretCal);
      
      // The webhook get created when this POST returns with a 201
-    if (process.env.X_SECRET_KEY){ 
+    if (webhookSecretCal){ 
        res.status(200);
-      res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
-      res.send();
+       res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
+       res.send();
     }
 
     // when the webhook is being executed  
     const signature = req.headers['X-Hook-Signature'];
-    const hash = crypto.createHmac('sha256', process.env.X_SECRET_KEY) // the signature is encryced , you will need to decrpyt this
+    const hash = crypto.createHmac('sha256', webhookSecretCal) // the signature is encryced , you will need to decrpyt this
     .update(String(req.body))
     .digest('hex');
-  
+
+    if (webhookSecretCal == undefined ){
+        // pull from DB for the data 
+    }else{
+      // save to db 
+    }
+    res.setHeader('X-Hook-Secret', xxxxx );
+
   // if the signature is not valid 
-    
   if (signature != hash){ 
       res.status(401); // send a error 
       res.send();
@@ -78,6 +80,7 @@ app.post('/calculate_score', function (req, res) {
       res.status(200); // send a success // this 
       res.send();
     }
+
  });
 
 // calculate webhook
