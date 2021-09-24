@@ -56,26 +56,32 @@ app.post('/calculate_score', function (req, res) {
   //     res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
   //     res.send();
   // }
-   
-  webhookSecretCal = "005b677b914d9bf59d0140b44ae0f9bb";
 
+  webhookSecretCal = "005b677b914d9bf59d0140b44ae0f9bb";
   // when the webhook is being executed  
+
   const signature = webhookSecretCal;
   const hash = crypto.createHmac('sha256', webhookSecretCal) // the signature is encryced , you will need to decrpyt this
     .update(String(req.body))
     .digest('hex');
  
-  // if the signature is not valid 
-  if (signature != hash) {
-    res.status(401); // send a error 
-    res.send();
-  } else {
     res.setHeader('X-Hook-Secret', webhookSecretCal);
     ASANA_CALCULATE_OPP.calculateOppScoring();
     console.log("Asana script is successfully executed")
     res.status(200); // send a success // this 
     res.send();
-  }
+
+  // if the signature is not valid 
+  // if (signature != hash) {
+  //   res.status(401); // send a error 
+  //   res.send();
+  // } else {
+  //   res.setHeader('X-Hook-Secret', webhookSecretCal);
+  //   ASANA_CALCULATE_OPP.calculateOppScoring();
+  //   console.log("Asana script is successfully executed")
+  //   res.status(200); // send a success // this 
+  //   res.send();
+  // }
 
 });
 
