@@ -51,20 +51,13 @@ app.post('/calculate_score', function (req, res) {
   console.log("req.headers['x-hook-secret']: " + webhookSecretCal);
 
   // The webhook get created when this POST returns with a 201
-  if (webhookSecretCal) {
-    res.status(200);
-    res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
-    res.send();
-  }
-
-  if (webhookSecretCal == undefined) {
-    // pull from DB for the data 
-    webhookSecretCal = "005b677b914d9bf59d0140b44ae0f9bb";
-
-  } else {
-    // save to db 
-  }
-
+  // if (webhookSecretCal !== undefined) {
+  //     res.status(200);
+  //     res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
+  //     res.send();
+  // }
+   
+  webhookSecretCal = "005b677b914d9bf59d0140b44ae0f9bb";
   // when the webhook is being executed  
   const signature = req.headers['X-Hook-Signature'];
   const hash = crypto.createHmac('sha256', webhookSecretCal) // the signature is encryced , you will need to decrpyt this
