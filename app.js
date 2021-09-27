@@ -64,6 +64,7 @@ app.post('/calculate_score', function (req, res) {
     .update(String(req.body))
     .digest('hex');
  
+    
     res.setHeader('X-Hook-Secret', webhookSecretCal);
     ASANA_CALCULATE_OPP.calculateOppScoring();
     console.log("Asana script is successfully executed")
