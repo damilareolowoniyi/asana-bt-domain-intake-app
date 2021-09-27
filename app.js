@@ -55,7 +55,6 @@ app.post('/calculate_score', function (req, res) {
   //     res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
   //     res.send();
   // }
-  
 
   webhookSecretCal = process.env.X_SECRET_KEY;
   // when the webhook is being executed  
