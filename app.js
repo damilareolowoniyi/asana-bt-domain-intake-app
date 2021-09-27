@@ -19,7 +19,6 @@ const ASANA_WEBHOOK_ADD_NEW_TASK = require('./client/AsanaWebHookAddTask.js');
 // const DELETE_WEBHOOK = require('./client/DeleteWebHook.js');
 
 webhookSecretCal = "";
-process.env.X_SECRET_KEY = "";
 
 
 var app = express();
@@ -57,7 +56,7 @@ app.post('/calculate_score', function (req, res) {
   //     res.send();
   // }
 
-  webhookSecretCal = "005b677b914d9bf59d0140b44ae0f9bb";
+  webhookSecretCal = process.env.X_SECRET_KEY;
   // when the webhook is being executed  
 
   const signature = webhookSecretCal;
