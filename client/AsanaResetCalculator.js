@@ -28,7 +28,7 @@ client.users.me()
         
         var isCalculationComplete = true;
 
-        if (result.data[14].completed == isCalculationComplete ){
+        if (result.data[14].completed != isCalculationComplete ){
 
                 // update section
             var submitReset = {
@@ -91,9 +91,7 @@ client.users.me()
             });
        
         }
-        else {
-            console.log("no its not true");
-        }            
+                 
 
     });
 
