@@ -12,11 +12,15 @@ var addIntakeRouter = require('./routes/addIntake');
 
 //POST Methods 
 const ASANA_CALCULATE_OPP = require('./client/AsanaOpportunityCalculator.js');
+const ASANA_RESET_CALCULATE_OPP = require('./client/AsanaResetCalculator.js');
+
 const ASANA_WEBHOOK_CALCULATE_RESULT = require('./client/AsanaWebHookCalculateResult.js');
+
 
 const ASANA_ADD_NEW_TASK = require('./client/InTakeRequestCreator.js');
 const ASANA_WEBHOOK_ADD_NEW_TASK = require('./client/AsanaWebHookAddTask.js');
 // const DELETE_WEBHOOK = require('./client/DeleteWebHook.js');
+const storage = require('node-persist');
 
 webhookSecretCal = "";
 
@@ -45,43 +49,43 @@ var crypto = require("crypto");
 
 // calculate webhook
 app.post('/calculate_score', function (req, res) {
+  
   var webhookSecretCal = req.headers['x-hook-secret'];
-
   console.log("req.headers['x-hook-secret']: " + webhookSecretCal);
 
-  // The webhook get created when this POST returns with a 201
-  // if (webhookSecretCal !== undefined) {
-  //     res.status(200);
-  //     res.setHeader('X-Hook-Secret', req.headers['x-hook-secret']);
-  //     res.send();
-  // }
+  // local storage 
+  // await storage.init( /* options ... */ );
+  // await storage.setItem('x-hook', webhookSecretCal)
+  // storage.getItem('x-hook');
+  // let value = await storage.getItem('x-hook');
 
-  webhookSecretCal = process.env.X_SECRET_KEY;
-  // when the webhook is being executed  
+  
+   webhookSecretCal = process.env.X_SECRET_KEY;
 
-  const signature = webhookSecretCal;
-  const hash = crypto.createHmac('sha256', webhookSecretCal) // the signature is encryced , you will need to decrpyt this
-    .update(String(req.body))
-    .digest('hex');
+    const signature = webhookSecretCal;
+    const hash = crypto.createHmac('sha256', webhookSecretCal) // the signature is encryced , you will need to decrpyt this
+      .update(String(req.body))
+      .digest('hex');
  
     
-    res.setHeader('X-Hook-Secret', webhookSecretCal);
-    ASANA_CALCULATE_OPP.calculateOppScoring();
-    console.log("Asana script is successfully executed")
-    res.status(200); // send a success // this 
-    res.send();
+    // res.setHeader('X-Hook-Secret', webhookSecretCal);
+    // ASANA_CALCULATE_OPP.calculateOppScoring();
+    // console.log("Asana script is successfully executed")
+    // res.status(200); // send a success // this 
+    // res.send();
 
   // if the signature is not valid 
-  // if (signature != hash) {
-  //   res.status(401); // send a error 
-  //   res.send();
-  // } else {
-  //   res.setHeader('X-Hook-Secret', webhookSecretCal);
-  //   ASANA_CALCULATE_OPP.calculateOppScoring();
-  //   console.log("Asana script is successfully executed")
-  //   res.status(200); // send a success // this 
-  //   res.send();
-  // }
+  if (signature != hash) {
+    res.status(401); // send a error 
+    res.send();
+  } else {
+    res.setHeader('X-Hook-Secret', webhookSecretCal);
+    ASANA_CALCULATE_OPP.calculateOppScoring();
+    console.log("Asana script is successfully executed");
+    ASANA_RESET_CALCULATE_OPP.resetCalculate();
+    res.status(200); // send a success // this 
+    res.send();
+  }
 
 });
 
