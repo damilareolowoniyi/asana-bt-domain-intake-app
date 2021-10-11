@@ -14,9 +14,6 @@ var addIntakeRouter = require('./routes/addIntake');
 const ASANA_CALCULATE_OPP = require('./client/AsanaOpportunityCalculator.js');
 const ASANA_RESET_CALCULATE_OPP = require('./client/AsanaResetCalculator.js');
 
-const ASANA_WEBHOOK_CALCULATE_RESULT = require('./client/AsanaWebHookCalculateResult.js');
-
-
 const ASANA_ADD_NEW_TASK = require('./client/InTakeRequestCreator.js');
 const ASANA_WEBHOOK_ADD_NEW_TASK = require('./client/AsanaWebHookAddTask.js');
 // const DELETE_WEBHOOK = require('./client/DeleteWebHook.js');
@@ -68,24 +65,24 @@ app.post('/calculate_score', function (req, res) {
       .digest('hex');
  
     
-    // res.setHeader('X-Hook-Secret', webhookSecretCal);
-    // ASANA_CALCULATE_OPP.calculateOppScoring();
-    // console.log("Asana script is successfully executed")
-    // res.status(200); // send a success // this 
-    // res.send();
-
-  // if the signature is not valid 
-  if (signature != hash) {
-    res.status(401); // send a error 
-    res.send();
-  } else {
     res.setHeader('X-Hook-Secret', webhookSecretCal);
     ASANA_CALCULATE_OPP.calculateOppScoring();
-    console.log("Asana script is successfully executed");
     ASANA_RESET_CALCULATE_OPP.resetCalculate();
+    console.log("Asana script is successfully executed")
     res.status(200); // send a success // this 
     res.send();
-  }
+
+  // if the signature is not valid 
+  // if (signature != hash) {
+  //   res.status(401); // send a error 
+  //   res.send();
+  // } else {
+  //   res.setHeader('X-Hook-Secret', webhookSecretCal);
+  //   ASANA_CALCULATE_OPP.calculateOppScoring();
+  //   console.log("Asana script is successfully executed")
+  //   res.status(200); // send a success // this 
+  //   res.send();
+  // }
 
 });
 
