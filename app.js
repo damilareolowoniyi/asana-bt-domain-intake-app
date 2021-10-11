@@ -67,7 +67,12 @@ app.post('/calculate_score', function (req, res) {
     
     res.setHeader('X-Hook-Secret', webhookSecretCal);
     ASANA_CALCULATE_OPP.calculateOppScoring();
-    ASANA_RESET_CALCULATE_OPP.resetCalculate();
+
+    setTimeout(function () {
+      ASANA_RESET_CALCULATE_OPP.resetCalculate();
+    }, 8000);
+
+
     console.log("Asana script is successfully executed")
     res.status(200); // send a success // this 
     res.send();
